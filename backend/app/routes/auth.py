@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import uuid4
 from app.schemas import UserCreate, User
 from app.models import UserDB

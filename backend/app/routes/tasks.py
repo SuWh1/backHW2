@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from uuid import uuid4
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas import Task, TaskCreate, User
 from app.models import TaskDB
 from app.database import SessionLocal
