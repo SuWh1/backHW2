@@ -4,3 +4,4 @@ sqlalchemy
 asyncpg 
 python-jose
 passlib[bcrypt]
+psycopg2
