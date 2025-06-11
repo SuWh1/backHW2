@@ -1,7 +1,18 @@
+alembic
+asyncpg
+psycopg 
+psycopg2-binary
+sqlalchemy
+
+# FastAPI
 fastapi
 uvicorn
-sqlalchemy
-asyncpg 
 python-jose
 passlib[bcrypt]
 python-dotenv
+pydantic
+pydantic-settings
+
+redis
+
+celery

@@ -9,7 +9,8 @@ interface Task {
   owner_id?: string;
 }
 
-const API_URL = "https://nfact-web-hw5.onrender.com";
+// const API_URL = "https://nfact-web-hw5.onrender.com";
+const API_URL = "http://localhost:8000";
 
 const App: React.FC = () => {
   // Auth state

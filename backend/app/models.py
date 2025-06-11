@@ -1,5 +1,6 @@
-from sqlalchemy import Column, String, Text, ForeignKey
+from sqlalchemy import Column, String, Text, ForeignKey, Boolean
 from .database import Base
+
 
 class UserDB(Base):
     __tablename__ = "users"
@@ -7,9 +8,10 @@ class UserDB(Base):
     username = Column(String(50), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
 
+
 class TaskDB(Base):
     __tablename__ = "tasks"
     id = Column(String, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
-    owner_id = Column(String, ForeignKey("users.id"), nullable=False) 
+    owner_id = Column(String, ForeignKey("users.id"), nullable=False)
