@@ -1,5 +1,6 @@
-from sqlalchemy import Column, String, Text, ForeignKey, Boolean
+from sqlalchemy import Column, String, Text, ForeignKey, Boolean, DateTime
 from .database import Base
+from datetime import datetime
 
 
 class UserDB(Base):
@@ -15,3 +16,11 @@ class TaskDB(Base):
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     owner_id = Column(String, ForeignKey("users.id"), nullable=False)
+
+
+class FetchedData(Base):
+    __tablename__ = "fetched_data"
+    id = Column(String, primary_key=True, index=True)
+    url = Column(String(255), nullable=False)
+    content = Column(Text, nullable=False)
+    fetched_at = Column(DateTime, default=datetime.utcnow)
