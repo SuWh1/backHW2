@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, ForeignKey, Boolean, DateTime
+from sqlalchemy import Column, String, Text, ForeignKey, Boolean, Integer, DateTime
 from .database import Base
 from datetime import datetime
 
@@ -22,5 +22,8 @@ class FetchedData(Base):
     __tablename__ = "fetched_data"
     id = Column(String, primary_key=True, index=True)
     url = Column(String(255), nullable=False)
-    content = Column(Text, nullable=False)
+    user_id = Column(Integer, nullable=False)
+    todo_id = Column(Integer, nullable=False)
+    title = Column(Text, nullable=False)
+    completed = Column(Boolean, nullable=False)
     fetched_at = Column(DateTime, default=datetime.utcnow)
