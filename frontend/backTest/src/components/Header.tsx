@@ -6,6 +6,8 @@ interface HeaderProps {
   onLogin: () => void;
   onSignup: () => void;
   onLogout: () => void;
+  chatMode: boolean;
+  setChatMode: (mode: boolean) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -14,11 +16,20 @@ const Header: React.FC<HeaderProps> = ({
   onLogin,
   onSignup,
   onLogout,
+  chatMode,
+  setChatMode,
 }) => {
   return (
     <header className="flex justify-between items-center py-4 mb-6 border-b">
       <div className="text-xl font-bold">Task App</div>
-      <nav className="space-x-4">
+      <nav className="space-x-4 flex items-center">
+        <button
+          onClick={() => setChatMode(!chatMode)}
+          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        >
+          {chatMode ? "Switch to Task Mode" : "Switch to Chat Mode"}
+        </button>
+
         {!isLoggedIn ? (
           <>
             <button className="text-blue-600 hover:underline" onClick={onLogin}>
@@ -43,5 +54,6 @@ const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+
 
 export default Header;
