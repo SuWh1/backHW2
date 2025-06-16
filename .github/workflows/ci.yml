@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+      - name: Lint with flake8
+        run: |
+          cd backend
+          pip install flake8
+          flake8 .
+      - name: Build Docker image
+        run: |
+          docker build ./backend -t backend:ci
+
+  frontend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/backTest/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('frontend/backTest/package-lock.json') }}
+      - name: Install dependencies
+        run: |
+          cd frontend/backTest
+          npm ci
+      - name: Lint
+        run: |
+          cd frontend/backTest
+          npm run lint
+      - name: Build
+        run: |
+          cd frontend/backTest
+          npm run build
+      - name: Build Docker image
+        run: |
+          docker build ./frontend/backTest -t frontend:ci 
