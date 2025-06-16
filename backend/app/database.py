@@ -12,7 +12,7 @@ DATABASE_URL_BASE = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db
 engine = create_async_engine(
     DATABASE_URL_BASE.replace("postgresql://", "postgresql+asyncpg://"),
     echo=True,
-    connect_args={"ssl": True} 
+    connect_args={"ssl": False} 
 )
 SessionLocal = sessionmaker(
     engine, expire_on_commit=False, class_=AsyncSession
@@ -21,7 +21,7 @@ Base = declarative_base()
 
 sync_engine = create_engine(
     DATABASE_URL_BASE.replace("postgresql+asyncpg://", "postgresql://"),
-    connect_args={"ssl": True}
+    connect_args={"ssl": False}
 )
 SyncSessionLocal = sessionmaker(bind=sync_engine)
 
