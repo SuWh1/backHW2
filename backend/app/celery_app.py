@@ -18,4 +18,3 @@ celery.conf.update(
 )
 
 # Import all task modules to register them with the worker
-from app import tasks

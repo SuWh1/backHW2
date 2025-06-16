@@ -25,10 +25,14 @@ async def register(user: UserCreate):
             select(UserDB).where(UserDB.username == user.username)
         )
         if result.scalar_one_or_none():
-            raise HTTPException(status_code=400, detail="Username already registered")
+            raise HTTPException(
+                status_code=400, detail="Username already registered"
+            )
         user_id = str(uuid4())
         hashed = get_password_hash(user.password)
-        db_user = UserDB(id=user_id, username=user.username, hashed_password=hashed)
+        db_user = UserDB(
+            id=user_id, username=user.username, hashed_password=hashed
+        )
         session.add(db_user)
         await session.commit()
         await session.refresh(db_user)

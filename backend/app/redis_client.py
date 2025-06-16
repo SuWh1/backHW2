@@ -7,7 +7,9 @@ _redis_client = None
 async def init_redis():
     global _redis_client
     if _redis_client is None:
-        _redis_client = redis.Redis(host="redis", port=6379, decode_responses=True)
+        _redis_client = redis.Redis(
+            host="redis", port=6379, decode_responses=True
+        )
 
 
 async def close_redis():

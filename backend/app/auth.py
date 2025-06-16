@@ -2,7 +2,7 @@ import os
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from fastapi import HTTPException, status, Request, Depends
+from fastapi import HTTPException, status, Request
 from .database import SessionLocal
 from .models import UserDB
 from .schemas import User
@@ -45,7 +45,8 @@ async def get_current_user(request: Request):
     auth: str = request.headers.get("Authorization")
     if not auth or not auth.startswith("Bearer "):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
         )
     token = auth.split(" ", 1)[1]
     payload = decode_access_token(token)
@@ -67,7 +68,8 @@ async def get_current_user(request: Request):
         user = result.fetchone()
         if not user:
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found"
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found",
             )
         # Cache user
         user_data = {
@@ -76,5 +78,7 @@ async def get_current_user(request: Request):
             "hashed_password": user.hashed_password,
         }
         await redis_client.set(f"user:id:{user.id}", json.dumps(user_data))
-        await redis_client.set(f"user:username:{user.username}", json.dumps(user_data))
+        await redis_client.set(
+            f"user:username:{user.username}", json.dumps(user_data)
+        )
         return User(id=user.id, username=user.username)

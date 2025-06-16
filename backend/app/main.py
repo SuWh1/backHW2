@@ -31,4 +31,3 @@ async def on_shutdown():
 app.include_router(auth_router)
 app.include_router(tasks_router)
 app.include_router(chat_router)
-
