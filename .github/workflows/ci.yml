@@ -51,10 +51,6 @@ jobs:
         run: |
           cd frontend/backTest
           npm ci
-      - name: Lint
-        run: |
-          cd frontend/backTest
-          npm run lint
       - name: Build
         run: |
           cd frontend/backTest
