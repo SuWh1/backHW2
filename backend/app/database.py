@@ -17,11 +17,11 @@ SessionLocal = sessionmaker(
 )
 Base = declarative_base()
 
-SYNC_DATABASE_URL = os.getenv(
-    "SYNC_DATABASE_URL", "postgresql+psycopg2://postgres:postgres@db:5432/postgres"
-)
-sync_engine = create_engine(SYNC_DATABASE_URL)
-SyncSessionLocal = sessionmaker(bind=sync_engine)
+# SYNC_DATABASE_URL = os.getenv(
+#     "SYNC_DATABASE_URL", "postgresql+psycopg2://postgres:postgres@db:5432/postgres"
+# )
+# sync_engine = create_engine(SYNC_DATABASE_URL)
+# SyncSessionLocal = sessionmaker(bind=sync_engine)
 
 
 async def init_db():
