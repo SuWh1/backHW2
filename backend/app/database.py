@@ -7,21 +7,24 @@ from sqlalchemy import create_engine
 # Load environment variables from .env file
 load_dotenv()
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql+asyncpg://postgres:postgres@db:5432/postgres"
-)
+DATABASE_URL_BASE = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/postgres")
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(
+    DATABASE_URL_BASE.replace("postgresql://", "postgresql+asyncpg://"),
+    echo=True,
+    connect_args={"ssl": True} 
+)
 SessionLocal = sessionmaker(
     engine, expire_on_commit=False, class_=AsyncSession
 )
 Base = declarative_base()
 
-# SYNC_DATABASE_URL = os.getenv(
-#     "SYNC_DATABASE_URL", "postgresql+psycopg2://postgres:postgres@db:5432/postgres"
-# )
-# sync_engine = create_engine(SYNC_DATABASE_URL)
-# SyncSessionLocal = sessionmaker(bind=sync_engine)
+sync_engine = create_engine(
+    DATABASE_URL_BASE.replace("postgresql+asyncpg://", "postgresql://"),
+    connect_args={"ssl": True}
+)
+SyncSessionLocal = sessionmaker(bind=sync_engine)
+
 
 
 async def init_db():
