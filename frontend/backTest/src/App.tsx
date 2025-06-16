@@ -14,7 +14,7 @@ interface Task {
   owner_id?: string;
 }
 
-const API_URL = "http://localhost:8000";
+const API_URL = "http://46.101.100.92:8000";
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);

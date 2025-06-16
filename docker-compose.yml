@@ -14,7 +14,7 @@ services:
   backend:
     build: ./backend
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/postgres
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/postgres?sslmode=disable
     depends_on:
       - db
     ports:
@@ -37,6 +37,9 @@ services:
 
   celery_worker:
     build: ./backend
+    # Add the environment block here
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/postgres?sslmode=disable
     command: celery -A app.celery_app.celery worker --loglevel=info -P gevent
     depends_on:
       - backend
@@ -46,6 +49,9 @@ services:
 
   celery_beat:
     build: ./backend
+    # Add the environment block here
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/postgres?sslmode=disable
     command: celery -A app.celery_app.celery beat --loglevel=info
     depends_on:
       - redis
